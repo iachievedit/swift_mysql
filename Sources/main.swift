@@ -54,22 +54,24 @@ do {
 
 do {
   // DATE example
-  // TEXT example
   // POINT example
   // JSON example
 
   print("Let's create a table called samples and populate a record")
 
   try mysql.execute("DROP TABLE IF EXISTS samples")
-  try mysql.execute("CREATE TABLE samples (id INT PRIMARY KEY AUTO_INCREMENT, created_at DATETIME, location POINT, sample JSON, comment TEXT)")
+  try mysql.execute("CREATE TABLE samples (id INT PRIMARY KEY AUTO_INCREMENT, created_at DATETIME, location POINT, sample JSON)")
 
+  // ... Date
   let now              = Date()
   let formatter        = DateFormatter()
   formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
   let created_at       = formatter.string(from:now)
 
+  // ... Point
   let point = (37.20262, -112.98785)
 
+  // ... Sample
   let sample:[String:Any] = [
     "heading":90,
     "gps":[
