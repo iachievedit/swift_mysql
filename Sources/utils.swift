@@ -1,5 +1,8 @@
+//
+// MIT License
+// Copyright (c) 2016 iAchieved.it
+//
 import Glibc
-
 
 class Random {
   static let initialize:Void = {
