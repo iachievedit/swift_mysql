@@ -37,6 +37,8 @@ do {
     try mysql.execute("INSERT INTO foo VALUES (\(int), '\(string)')")
   }
 
+  print("Rows populated, now query")
+
   // Query
   let results = try mysql.execute("SELECT * FROM foo")
   for result in results {
@@ -55,6 +57,8 @@ do {
   // TEXT example
   // POINT example
   // JSON example
+
+  print("Let's create a table called samples and populate a record")
 
   try mysql.execute("DROP TABLE IF EXISTS samples")
   try mysql.execute("CREATE TABLE samples (id INT PRIMARY KEY AUTO_INCREMENT, created_at DATETIME, location POINT, sample JSON, comment TEXT)")
@@ -78,11 +82,14 @@ do {
   let data = try Jay(formatting:.minified).dataFromJson(any:sample) // [UInt8]
   if let sampleJSON = String(data:Data(data), encoding:.utf8) {
     let stmt = "INSERT INTO samples (created_at, location, sample) VALUES ('\(created_at)', POINT\(point), '\(sampleJSON)')"
-    print(stmt)
+    print("Inserting a sample with:  \(stmt)")
     try mysql.execute(stmt)
   }
 
-  let results = try mysql.execute("SELECT created_at,sample FROM samples where JSON_EXTRACT(sample, '$.speed') > 80") 
+  print("Querying based upon JSON (speed > 80)")
+  let results = try mysql.execute("SELECT created_at,sample FROM samples where JSON_EXTRACT(sample, '$.speed') > 80")
+
+  print("Results:  \(results.count)")
   for result in results {
     if let sample = result["sample"]?.object,
        let speed      = sample["speed"]?.int,
